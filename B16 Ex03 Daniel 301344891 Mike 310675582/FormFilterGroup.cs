@@ -34,7 +34,7 @@ namespace FacebookSmartView
         {   
             if (!string.IsNullOrEmpty(textBoxFilterItem.Text))
             {
-                FilterItem newItem = new FilterItem(textBoxFilterItem.Text);
+                FilterItem newItem = new FilterItem(new RegexFilterStrategy(textBoxFilterItem.Text));
                 addItem(newItem);
 
                 textBoxFilterItem.Text = String.Empty;

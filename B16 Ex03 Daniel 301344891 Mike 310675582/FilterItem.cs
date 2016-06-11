@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using System.Reflection;
 
 using FacebookWrapper.ObjectModel;
 
@@ -13,19 +12,21 @@ namespace FacebookSmartView
 {
     public class FilterItem : IXmlSerializable, IFilter
     {
-        private Regex m_Regex;
+        private IFilterStrategy m_FilterStrategy;
+
+        private static readonly string sr_FilterStrategy = "Strategy";
         private static readonly string sr_FilterTextAttribute = "TextToFilter";
 
-        public FilterItem() : this(string.Empty) { } 
+        public FilterItem() : this(null) { }
         
-        public FilterItem(string i_Item)
+        public FilterItem(IFilterStrategy i_FilterStrategy)
         {
-            m_Regex = new Regex(i_Item);
+            m_FilterStrategy = i_FilterStrategy;
         }
 
         public override string ToString()
         {
-            return m_Regex.ToString();
+            return m_FilterStrategy.ToString();
         }
 
         public bool IsMatch(Post i_Post)
@@ -34,7 +35,7 @@ namespace FacebookSmartView
 
             if (i_Post.Message != null)
             {
-                isMatched = m_Regex.Match(i_Post.Message).Success;
+                isMatched = m_FilterStrategy.IsMatch(i_Post.Message);
             }
 
             return isMatched;
@@ -47,17 +48,19 @@ namespace FacebookSmartView
 
         public void ReadXml(XmlReader i_Reader)
         {
+            string filterStrategy = i_Reader.GetAttribute(sr_FilterStrategy);
             string textToFilter = i_Reader.GetAttribute(sr_FilterTextAttribute);
 
             if (textToFilter != null)
             {
-                m_Regex = new Regex(textToFilter);
+                m_FilterStrategy = (IFilterStrategy)Activator.CreateInstance(Assembly.GetExecutingAssembly().GetType(filterStrategy), textToFilter);
             }
         }
 
         public void WriteXml(XmlWriter i_Writer)
         {
-            i_Writer.WriteAttributeString(sr_FilterTextAttribute, m_Regex.ToString());
+            i_Writer.WriteAttributeString(sr_FilterStrategy, m_FilterStrategy.GetType().ToString());
+            i_Writer.WriteAttributeString(sr_FilterTextAttribute, m_FilterStrategy.ToString());
         }
     }
 }

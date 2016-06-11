@@ -16,7 +16,6 @@ namespace FacebookSmartView
         private const double k_PhotoLikeScore = 0.6;
         private const double k_PhotoCommentScore = 0.4;
         private const int k_MaxPhotos = 50;
-        //private const int k_MaxPhotos = 4;
 
         public TopPhotosFeature(AppUser i_AppUser, ref List<SpecialPictureBox> io_PictureBoxArray)
         {

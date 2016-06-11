@@ -11,6 +11,7 @@ namespace FacebookSmartView
 {
     public class PostFilter
     {
+        private readonly string sr_ConfigFile = "filter.xml";
         public IList<FilterGroup> FilterGroups { get; set; }
 
         public PostFilter()
@@ -37,7 +38,7 @@ namespace FacebookSmartView
         {
             XmlSerializer serializer = new XmlSerializer(typeof(List<FilterGroup>));
 
-            using (TextWriter writer = new StreamWriter("filter.xml"))
+            using (TextWriter writer = new StreamWriter(sr_ConfigFile))
             {
                 serializer.Serialize(writer, FilterGroups);
             }
@@ -45,9 +46,10 @@ namespace FacebookSmartView
         private void load()
         {
             XmlSerializer serializer = new XmlSerializer(typeof(List<FilterGroup>));
-            if (File.Exists("filter.xml"))
+
+            if (File.Exists(sr_ConfigFile))
             {
-                using (TextReader reader = new StreamReader("filter.xml"))
+                using (TextReader reader = new StreamReader(sr_ConfigFile))
                 {
                     FilterGroups = (List<FilterGroup>)serializer.Deserialize(reader);
                 }

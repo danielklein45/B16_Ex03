@@ -16,6 +16,7 @@ namespace FacebookSmartView
     {
         private IList<IFilter> m_FilterItems;
         private static readonly string sr_GroupNameAttribute = "Name";
+        private const string sr_FilterItemsElement = "FilterItems";
         private const string sr_FilterItemElement = "FilterItem";
         private const string sr_FilterGroupElement = "FilterGroup";
 
@@ -63,7 +64,7 @@ namespace FacebookSmartView
         {
             Name = i_Reader.GetAttribute(sr_GroupNameAttribute);
             i_Reader.ReadStartElement();
-            i_Reader.ReadStartElement(sr_FilterItemElement);
+            i_Reader.ReadStartElement(sr_FilterItemsElement);
             while (i_Reader.IsStartElement())
             {
                 XmlSerializer serializer;
@@ -89,7 +90,7 @@ namespace FacebookSmartView
         public void WriteXml(XmlWriter i_Writer)
         {
             i_Writer.WriteAttributeString(sr_GroupNameAttribute, Name);
-            i_Writer.WriteStartElement(sr_FilterItemElement);
+            i_Writer.WriteStartElement(sr_FilterItemsElement);
 
             foreach (IFilter item in m_FilterItems)
             {
