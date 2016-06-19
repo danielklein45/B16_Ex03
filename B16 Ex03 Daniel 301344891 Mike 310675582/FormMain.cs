@@ -58,10 +58,16 @@ namespace FacebookSmartView
 
             for (int i = 0; i < k_NumberOfSpecialPictures; ++i)
             {
-                m_PopPanelMgt.TryAddToPanel(new SpecialPictureBox(panelMostPopular));
+                //m_PopPanelMgt.TryAddToPanel(
+                //    new SpecialPictureBoxConcrete().InitiateSpeicalPictureBox(panelMostPopular)
+                //        ));
+
+                m_PopPanelMgt.TryAddToPanel(new SpecialPictrueBoxBlueHover(new SpecialPictureBoxConcrete()).
+                    InitiateSpeicalPictureBox(panelMostPopular)
+                   );
             }
 
-            List<SpecialPictureBox> lstSpBoxFromPopPanel = m_PopPanelMgt.PictureObjectList;
+            List<ASpecialPictureBox> lstSpBoxFromPopPanel = m_PopPanelMgt.PictureObjectList;
             m_TopPhotosFeature = new TopPhotosFeature(m_AppUser, ref lstSpBoxFromPopPanel);
 
             updateFormLoader(!v_FinishedLoading, "Loading User info...");

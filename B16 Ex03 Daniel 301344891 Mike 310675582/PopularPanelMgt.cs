@@ -12,7 +12,7 @@ namespace FacebookSmartView
         private const int k_MaxPanel = 4;
         private static Point s_NextFreePoint;
         private Size m_Surface;
-        private List<SpecialPictureBox> m_LstPictureBoxFromForm;
+        private List<ASpecialPictureBox> m_LstPictureBoxFromForm;
         
         private static PopularPanelMgt s_CurrentInstance;
         private static Object s_LockOnMgt = new object();
@@ -55,7 +55,7 @@ namespace FacebookSmartView
                 m_InformationCommentTextbox = value;
             }
         }
-        public List<SpecialPictureBox> PictureObjectList
+        public List<ASpecialPictureBox> PictureObjectList
         {
             get
             {
@@ -65,7 +65,7 @@ namespace FacebookSmartView
         
         private PopularPanelMgt()
         {
-            m_LstPictureBoxFromForm = new List<SpecialPictureBox>();
+            m_LstPictureBoxFromForm = new List<ASpecialPictureBox>();
             s_NextFreePoint = new Point(k_Spacer, k_Spacer);
             m_CurrentSelectedObjectId = string.Empty;
             s_LockOnMgt = new Object();
@@ -96,14 +96,14 @@ namespace FacebookSmartView
                                  i_OuterPanel.Size.Height - i_InnerPanel.Size.Height - k_Spacer );
         }
 
-        public bool TryAddToPanel(SpecialPictureBox i_NewPicObject)
+        public bool TryAddToPanel(ASpecialPictureBox i_NewPicObject)
         {
             bool isAdded = false;
             Point pNewPointForPicture;
 
             if (m_LstPictureBoxFromForm.Count < k_MaxPanel)
             {
-                if (getNextFreeLocationInContainer(SpecialPictureBox.PictureBoxTopPhotosSize, out pNewPointForPicture))
+                if (getNextFreeLocationInContainer(ASpecialPictureBox.PictureBoxTopPhotosSize, out pNewPointForPicture))
                 {
                     //i_NewPicObject.PictureObject = new PictureObject(string.Empty, 0,
                     //                                                 0, 0, string.Empty,

@@ -58,6 +58,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppUser.cs" />
+    <Compile Include="ASpecialPictureBoxDecorator.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SpecialPictureBoxConcrete.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="FormLoader.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -67,6 +73,7 @@
     <Compile Include="IFilter.cs" />
     <Compile Include="ClonePrototype.cs" />
     <Compile Include="IFilterStrategy.cs" />
+    <Compile Include="ISpecialPictureBoxDecorator.cs" />
     <Compile Include="LoginLogic.cs" />
     <Compile Include="FilterGroup.cs" />
     <Compile Include="FormFilterGroup.cs">

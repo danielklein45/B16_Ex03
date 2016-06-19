@@ -12,12 +12,12 @@ namespace FacebookSmartView
         private AppUser m_AppUser;
         private List<string> m_ListOfObjectIDSortedByFromTopScore;
         private SortedDictionary<string, PictureObjectBasic> m_SortedDicAllPhotosByObjectID;
-        private List<SpecialPictureBox> m_PictureObejctsOnForm;
+        private List<ASpecialPictureBox> m_PictureObejctsOnForm;
         private const double k_PhotoLikeScore = 0.6;
         private const double k_PhotoCommentScore = 0.4;
         private const int k_MaxPhotos = 50;
 
-        public TopPhotosFeature(AppUser i_AppUser, ref List<SpecialPictureBox> io_PictureBoxArray)
+        public TopPhotosFeature(AppUser i_AppUser, ref List<ASpecialPictureBox> io_PictureBoxArray)
         {
             m_PictureObejctsOnForm = io_PictureBoxArray;
             m_ListOfObjectIDSortedByFromTopScore = new List<string>();
@@ -73,7 +73,7 @@ namespace FacebookSmartView
             PictureObjectBasic pobCurrentObj;
             string currentIndex = string.Empty;
 
-            foreach (SpecialPictureBox poCurrPicObj in m_PictureObejctsOnForm)
+            foreach (ASpecialPictureBox poCurrPicObj in m_PictureObejctsOnForm)
             {
                 currentIndex = m_ListOfObjectIDSortedByFromTopScore.ElementAt(indexForDictionary++);
                 pobCurrentObj = m_SortedDicAllPhotosByObjectID[currentIndex];

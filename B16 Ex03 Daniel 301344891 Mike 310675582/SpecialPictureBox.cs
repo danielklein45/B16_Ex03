@@ -8,14 +8,14 @@ using System.Windows.Forms;
 namespace FacebookSmartView
 {
     [Serializable]
-    partial class SpecialPictureBox : PictureBox
+    abstract class ASpecialPictureBox : PictureBox, ISpecialPictureBoxDecorator
     {
         #region Private Members
 
-        private Panel m_FatherPanel;
-        private Panel m_BoxPanel;
-        private Label m_BotLabel;
-        private PictureObject m_PoPictureObjectID;
+        protected Panel m_FatherPanel;
+        protected Panel m_BoxPanel;
+        protected Label m_BotLabel;
+        protected PictureObject m_PoPictureObjectID;
 
         #endregion
 
@@ -42,42 +42,62 @@ namespace FacebookSmartView
         #endregion
 
 
-        public SpecialPictureBox(Panel i_FatherPanel)
+        #region Basic SpecialPictureBox functionality
+
+        protected override void OnMouseHover(EventArgs e)
         {
-            m_FatherPanel = i_FatherPanel;
+            SpecialPictureBox_Hover(e);
+            base.OnMouseHover(e);
+        }
+
+        protected override void OnMouseLeave(EventArgs e)
+        {
+            SpecialPictureBox_Leave(e);
+            base.OnMouseLeave(e);
+        }
+
+        public ASpecialPictureBox InitiateSpeicalPictureBox(Panel i_FatherPanel)
+        {
+            this.m_FatherPanel = i_FatherPanel;
 
             this.SizeMode = PictureBoxSizeMode.StretchImage;
             this.Size = r_PictureSize;
             this.Location = new Point(0, 0);
             this.Click += SpecialPictureBoxOnClick;
 
-            m_BotLabel = new Label();
-            m_BotLabel.Size = r_PanelSize;
-            m_BotLabel.Location = r_PanelStartLoc;
-            m_BotLabel.AutoSize = false;
-            m_BotLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.m_BotLabel = new Label();
+            this.m_BotLabel.Size = r_PanelSize;
+            this.m_BotLabel.Location = r_PanelStartLoc;
+            this.m_BotLabel.AutoSize = false;
+            this.m_BotLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 
             this.Visible = true;
 
-            m_BoxPanel = new Panel();
-            m_BoxPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            m_BoxPanel.Size = sr_PictureBoxTopPhotosSize;
+            this.m_BoxPanel = new Panel();
+            this.m_BoxPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.m_BoxPanel.Size = sr_PictureBoxTopPhotosSize;
 
 
-            m_BoxPanel.Controls.Add(this);
-            m_BoxPanel.Controls.Add(m_BotLabel);
+            this.m_BoxPanel.Controls.Add(this);
+            this.m_BoxPanel.Controls.Add(m_BotLabel);
 
-            m_FatherPanel.Controls.Add(m_BoxPanel);
+            this.m_FatherPanel.Controls.Add(m_BoxPanel);
+
+            return this;
+        }
+        public ASpecialPictureBox()
+        {
+
         }
 
         void SpecialPictureBoxOnClick(object sender, EventArgs e)
         {
             string strSelectedObjectId;
-            SpecialPictureBox spbCurrent;
+            ASpecialPictureBox spbCurrent;
 
             try
             {
-                spbCurrent = (sender as SpecialPictureBox);
+                spbCurrent = (sender as ASpecialPictureBox);
                 strSelectedObjectId = spbCurrent.PictureObject.ObjectId.ToString();
                 PopularPanelMgt.Instance.CurrentObjectID = strSelectedObjectId;
             }
@@ -112,18 +132,6 @@ namespace FacebookSmartView
             }
 
             m_FatherPanel.Controls.Remove(m_BoxPanel);
-        }
-
-        protected override void OnMouseHover(EventArgs e)
-        {
-            m_BotLabel.BackColor = Color.LightSkyBlue;
-            base.OnMouseHover(e);
-        }
-
-        protected override void OnMouseLeave(EventArgs e)
-        {
-            m_BotLabel.BackColor = SystemColors.ButtonHighlight;
-            base.OnMouseLeave(e);
         }
 
         public Point ObjectLocation
@@ -173,6 +181,16 @@ namespace FacebookSmartView
                 return m_BotLabel;
             }
         }
+
+        #endregion
+
+        #region Abstract Functions
+
+        public abstract void SpecialPictureBox_Hover(EventArgs e);
+
+        public abstract void SpecialPictureBox_Leave(EventArgs e);
+
+        #endregion
 
     }
 }
