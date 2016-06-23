@@ -8,6 +8,7 @@ using System.Windows.Forms;
 namespace FacebookSmartView
 {
     [Serializable]
+
     abstract class ASpecialPictureBox : PictureBox, ISpecialPictureBoxDecorator
     {
         #region Private Members
@@ -18,7 +19,6 @@ namespace FacebookSmartView
         protected PictureObject m_PoPictureObjectID;
 
         #endregion
-
 
         #region Const region
 
@@ -44,19 +44,23 @@ namespace FacebookSmartView
 
         #region Basic SpecialPictureBox functionality
 
+
+        // Needed to call for Abstract Functions to implement Hover and Leave
         protected override void OnMouseHover(EventArgs e)
         {
+            // Call to abstract function
             SpecialPictureBox_Hover(e);
             base.OnMouseHover(e);
         }
 
         protected override void OnMouseLeave(EventArgs e)
         {
+            // Call to abstract function
             SpecialPictureBox_Leave(e);
             base.OnMouseLeave(e);
         }
 
-        public ASpecialPictureBox InitiateSpeicalPictureBox(Panel i_FatherPanel)
+        public ASpecialPictureBox InitialSpecialPictureBox(Panel i_FatherPanel)
         {
             this.m_FatherPanel = i_FatherPanel;
 
@@ -85,6 +89,7 @@ namespace FacebookSmartView
 
             return this;
         }
+       
         public ASpecialPictureBox()
         {
 
@@ -119,9 +124,9 @@ namespace FacebookSmartView
 
         public void UpdateNames(int i_Id)
         {
-            this.Name = m_FatherPanel.Name.ToString() + k_PictureName.ToString() + "_" + i_Id.ToString();
-            m_BotLabel.Name = m_FatherPanel.Name.ToString() + k_PanelName.ToString() + "_" + i_Id.ToString();
-            m_BoxPanel.Name = m_FatherPanel.Name.ToString() + k_GeneralPanelName.ToString() + "_" + i_Id.ToString();
+            this.Name = FatherPanel.Name.ToString() + k_PictureName.ToString() + "_" + i_Id.ToString();
+            PicLabel.Name = FatherPanel.Name.ToString() + k_PanelName.ToString() + "_" + i_Id.ToString();
+            BoxPanel.Name = FatherPanel.Name.ToString() + k_GeneralPanelName.ToString() + "_" + i_Id.ToString();
         }
 
         public void RemoveObjectFromPanel()
@@ -131,10 +136,21 @@ namespace FacebookSmartView
                 m_BoxPanel.Controls.Remove(currControl);
             }
 
-            m_FatherPanel.Controls.Remove(m_BoxPanel);
+            FatherPanel.Controls.Remove(m_BoxPanel);
         }
 
-        public Point ObjectLocation
+        public static Size PictureBoxTopPhotosSize
+        {
+            get
+            {
+                return sr_PictureBoxTopPhotosSize;
+            }
+        }
+
+        #endregion
+
+
+        public virtual Point ObjectLocation
         {
             get
             {
@@ -146,15 +162,7 @@ namespace FacebookSmartView
             }
         }
 
-        public static Size PictureBoxTopPhotosSize
-        {
-            get
-            {
-                return sr_PictureBoxTopPhotosSize;
-            }
-        }
-
-        public PictureObject PictureObject
+        public virtual PictureObject PictureObject
         {
             get
             {
@@ -166,23 +174,41 @@ namespace FacebookSmartView
             }
         }
 
-        public Panel FatherPanel
+        public virtual Panel FatherPanel
         {
+            set
+            {
+                this.m_FatherPanel = value;
+            }
             get
             {
                 return m_FatherPanel;
             }
         }
 
-        public Label PicLabel
+        public virtual Panel BoxPanel
         {
+            set
+            {
+                this.m_BoxPanel = value;
+            }
+            get
+            {
+                return m_BoxPanel;
+            }
+        }
+
+        public virtual Label PicLabel
+        {
+            set
+            {
+                this.m_BotLabel = value;
+            }
             get
             {
                 return m_BotLabel;
             }
         }
-
-        #endregion
 
         #region Abstract Functions
 

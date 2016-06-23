@@ -58,13 +58,37 @@ namespace FacebookSmartView
 
             for (int i = 0; i < k_NumberOfSpecialPictures; ++i)
             {
+                // This is without decorator Desing pattern
+
                 //m_PopPanelMgt.TryAddToPanel(
                 //    new SpecialPictureBoxConcrete().InitiateSpeicalPictureBox(panelMostPopular)
                 //        ));
 
-                m_PopPanelMgt.TryAddToPanel(new SpecialPictrueBoxBlueHover(new SpecialPictureBoxConcrete()).
-                    InitiateSpeicalPictureBox(panelMostPopular)
-                   );
+
+                // Design Pattern Decorator Logic - just to show it is working.
+
+
+                ASpecialPictureBox spDecorator;
+                SpecialPictureBoxConcrete spConcrete = new SpecialPictureBoxConcrete();
+                   //spConcrete.InitiateSpeicalPictureBox(panelMostPopular);
+                switch (i % 4)
+                {
+                    case 0:
+                        spDecorator = new SpecialPictrueBoxBlueHover(new SpecialPictrueBoxGreyLeaver(spConcrete));
+                        break;
+                    case 1:
+                        spDecorator = new SpecialPictrueBoxRedHoverAndLeaver(spConcrete);
+                        break;
+                    case 2:
+                        spDecorator = new SpecialPictrueBoxBlueHover(new SpecialPictrueBoxRedHoverAndLeaver(spConcrete));
+                        break;
+                    default:
+                        spDecorator = new SpecialPictrueBoxBlueHover(new SpecialPictrueBoxBlueLeaver(spConcrete));
+                        break;
+                }
+                spDecorator.InitialSpecialPictureBox(panelMostPopular);
+                (spDecorator as ASpecialPictureBoxDecorator).InitiateConcrete(spConcrete);
+                m_PopPanelMgt.TryAddToPanel(spDecorator);
             }
 
             List<ASpecialPictureBox> lstSpBoxFromPopPanel = m_PopPanelMgt.PictureObjectList;

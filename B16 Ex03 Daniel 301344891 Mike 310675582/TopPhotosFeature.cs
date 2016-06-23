@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using FacebookWrapper.ObjectModel;
+using System.Windows.Forms;
 
 namespace FacebookSmartView
 {
@@ -15,7 +16,8 @@ namespace FacebookSmartView
         private List<ASpecialPictureBox> m_PictureObejctsOnForm;
         private const double k_PhotoLikeScore = 0.6;
         private const double k_PhotoCommentScore = 0.4;
-        private const int k_MaxPhotos = 50;
+        //private const int k_MaxPhotos = 50;
+        private const int k_MaxPhotos = 10;
 
         public TopPhotosFeature(AppUser i_AppUser, ref List<ASpecialPictureBox> io_PictureBoxArray)
         {
@@ -85,6 +87,8 @@ namespace FacebookSmartView
                 poCurrPicObj.PictureObject.PictureUrl = pobCurrentObj.PictureUrl;
                 poCurrPicObj.PictureObject.PostedDate = pobCurrentObj.PostedDate;
 
+                poCurrPicObj.ImageLocation = poCurrPicObj.PictureObject.PictureUrl;
+                poCurrPicObj.Load();
                 poCurrPicObj.PictureObject.LoadInformation();
             }
         }

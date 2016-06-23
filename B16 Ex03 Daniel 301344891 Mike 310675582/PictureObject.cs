@@ -40,11 +40,15 @@ namespace FacebookSmartView
 
         public void LoadInformation()
         {
-            this.m_PictureBox.Load(this.PictureUrl);
+         
             this.m_BottomLable.Text = String.Format("{0} Likes + {1} Comments = {2} Score", 
                 this.NumberOfLikes, this.NumberOfComments, this.Score);
         }
 
+        public PictureBox PictureBoxObject
+        {
+            get { return this.m_PictureBox; }
+        }
        
     }
 }
